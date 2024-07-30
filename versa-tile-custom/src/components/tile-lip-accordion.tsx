@@ -4,7 +4,7 @@ import { Switch } from "@/components/ui/switch"
 
 export default function TileLipAccordion() {
   return (
-    <Accordion type="single" collapsible className="w-full">
+    <Accordion type="single" collapsible className="w-full h-full">
       <AccordionItem value="wall-lips">
         <AccordionTrigger>
           <h3 className="text-sm font-medium leading-none">Customise Wall Lips</h3>
