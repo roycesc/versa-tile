@@ -11,8 +11,8 @@ export default function SideMenu() {
     const [width, setWidth] = useState(900);   
     const [outletLength, setOutletLength] = useState(450);
     const [outletWidth, setOutletWidth] = useState(450); 
-    const sequareMeterCost = 1000;
-    const price = (length * width)/sequareMeterCost;
+    const sequareMeterCost = 450;
+    const price = (length * width)*(sequareMeterCost/1000000 );
 
 
 	const handleLengthChange = (e: React.ChangeEvent<HTMLInputElement>) => {
