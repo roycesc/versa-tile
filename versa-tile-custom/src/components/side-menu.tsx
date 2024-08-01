@@ -8,8 +8,11 @@ import TileLipAccordion from "./tile-lip-accordion"
 export default function SideMenu() {
 
     const [length, setLength] = useState(900);
-    const [width, setWidth] = useState(900);
-
+    const [width, setWidth] = useState(900);   
+    const [outletLength, setOutletLength] = useState(450);
+    const [outletWidth, setOutletWidth] = useState(450); 
+    const sequareMeterCost = 1000;
+    const price = (length * width)/sequareMeterCost;
 
 
 	const handleLengthChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -20,13 +23,37 @@ export default function SideMenu() {
         setWidth(Number(e.target.value));
     };
 
-    const isLengthValid = length >= 450 || length <= 1500;
-    const isWidthValid = width <= 400 || width >= 1700;
-    const isFormValid = isLengthValid && isWidthValid;
+    const handleOutletLengthChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setOutletLength(Number(e.target.value));
+    }
+
+    const handleOutletWidthChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setOutletWidth(Number(e.target.value));
+    }
+
+    const outletLimit = 50;
+    const isLengthValid = length >= 449 && length <= 1501;
+    const isWidthValid = width >= 449 && width <= 1701;
+    const isOutletLengthValid = (length - outletLimit) >= outletLength && outletLength >= outletLimit;
+    const isOutletWidthValid = (width-outletLimit) >= outletWidth && outletWidth >= outletLimit;
+    const isFormValid = isLengthValid && isWidthValid && isOutletLengthValid && isOutletWidthValid;
+    const cost = price.toLocaleString("en-US", {
+        style: "currency",
+        currency: "USD"
+      });
+
+	const saleprice = isFormValid ? cost: "";
+
+     
+
+    
+   
 
   return (
 	<div className="flex flex-col w-full h-screen max-w-md gap-6 p-6 bg-card rounded-lg shadow-lg flex-grow">
 	  <div className="grid gap-4 flex-grow">
+      <div className="text-sm text-muted-foreground">Only values between 400mm to 2100mm</div>
+
 		<div className="grid grid-cols-2 items-center gap-4">
 		  <Label htmlFor="length">Length</Label>
 		  <div className="flex flex-col gap-2">
@@ -34,15 +61,15 @@ export default function SideMenu() {
 			  <Input
 				id="length"
 				type="number"
-				min={400}
-				max={2100}
+				min={450}
+				max={1700}
 				value={length}
 				onChange={handleLengthChange}
 				className="w-full"
 			  />
 			  <span className="text-muted-foreground">mm</span>
 			</div>
-			{(length <= 450 || length >= 1700) && (
+			{(!isLengthValid) && (
 			  <span className="text-red-500 text-xs">
 				Length must be between 450mm and 1700mm.
 			  </span>
@@ -56,54 +83,79 @@ export default function SideMenu() {
                 <Input id="width" 
                 type="number" 
                 min={450} 
-                max={2100} 
+                max={1500} 
                 defaultValue={width} 
                 onChange={handleWidthChange}
                 className="w-full" />
                 <span className="text-muted-foreground">mm</span>
             </div>
-            {(width <= 450 || width >= 1500) && (
+            {(!isWidthValid) && (
                 <span className="text-red-500 text-xs">
                     Width must be between 450mm and 1500mm.
                 </span>
                 )}
+                
             </div>
         </div>
 		<div className="grid grid-cols-2 items-center gap-4">
 		  <Label htmlFor="outlet-length">Outlet Position Length</Label>
-		  <div className="flex items-center gap-2">
-			<Input id="outlet-length" type="number" min={400} max={2100} defaultValue={900} className="w-full" />
-			<span className="text-muted-foreground">mm</span>
-		  </div>
+          <div className="flex flex-col gap-2">
+            <div className="flex items-center gap-2">
+                <Input id="outlet-length" 
+                type="number" 
+                min={50} 
+                max={length-50} 
+                defaultValue={450}
+                onChange={handleOutletLengthChange} 
+                className="w-full" />
+                <span className="text-muted-foreground">mm</span>
+            </div>
+          {(!isOutletLengthValid) && (
+                <span className="text-red-500 text-xs">
+                    Minimum {outletLimit}mm from any edge.
+                </span>
+                )}
+          </div>
 		</div>
 		<div className="grid grid-cols-2 items-center gap-4">
 		  <Label htmlFor="outlet-width">Outlet Position Width</Label>
-		  <div className="flex items-center gap-2">
-			<Input id="outlet-width" type="number" min={400} max={2100} defaultValue={900} className="w-full" />
-			<span className="text-muted-foreground">mm</span>
-		  </div>
+          <div className="flex flex-col gap-2">
+            <div className="flex items-center gap-2">
+                <Input id="outlet-width" 
+                type="number" 
+                min={50} 
+                max={width-50} 
+                defaultValue={450} 
+                onChange={handleOutletWidthChange}
+                className="w-full" />
+                <span className="text-muted-foreground">mm</span>
+            </div>
+            {(!isOutletWidthValid) && (
+                <span className="text-red-500 text-xs">
+                    Minimum {outletLimit}mm from any edge.
+                </span>
+                )}
 		</div>
-		<div className="text-sm text-muted-foreground">Only values between 400mm to 2100mm</div>
 	  </div>
 	  <div>
 		<TileLipAccordion />
 	  </div>
 	  <div className="grid gap-2 mt-auto flex-grow">
 		<Button variant="outline" 
-        disabled={isFormValid}
+        disabled={!isFormValid}
         className="w-full">
 		  Draw & Quote
 		</Button>
 		<div id="Price-order" className="mt-auto">
 		  <div className="text-4xl font-bold py-8">
-			<span className="text-primary">$</span>
-			<span>1,499</span>
+			<span>{saleprice}</span>
 		  </div>
 		  <Button className="w-full"
-          disabled={isFormValid}
+          disabled={!isFormValid}
           >Order</Button>
 		</div>
 	  </div>
 	</div>
+    </div>
   )
 }

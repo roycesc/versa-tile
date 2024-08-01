@@ -7,7 +7,7 @@ export default function TileLipAccordion() {
     <Accordion type="single" collapsible className="w-full h-full">
       <AccordionItem value="wall-lips">
         <AccordionTrigger>
-          <h3 className="text-sm font-medium leading-none">Customise Wall Lips</h3>
+          <h3 className="text-sm font-medium leading-none">Customise Wall Lips (Optional)</h3>
         </AccordionTrigger>
         <AccordionContent >
           <div className="grid grid-cols-2 gap-4 w-full">
