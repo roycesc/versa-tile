@@ -1,8 +1,9 @@
 'use client'
-import { useState } from "react"
+import { useCallback, useState } from "react"
 import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
+import { debounce } from "@/lib/debounce"
 import TileLipAccordion from "./tile-lip-accordion"
 
 export default function SideMenu() {
@@ -15,21 +16,21 @@ export default function SideMenu() {
     const price = (length * width)*(sequareMeterCost/1000000 );
 
 
-	const handleLengthChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+	const handleLengthChange = useCallback(debounce((e: React.ChangeEvent<HTMLInputElement>) => {
         setLength(Number(e.target.value));
-    };
+    }, 300), []);
 
-	const handleWidthChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+	const handleWidthChange = useCallback(debounce((e: React.ChangeEvent<HTMLInputElement>) => {
         setWidth(Number(e.target.value));
-    };
+    }, 300), []);
 
-    const handleOutletLengthChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleOutletLengthChange = useCallback(debounce((e: React.ChangeEvent<HTMLInputElement>) => {
         setOutletLength(Number(e.target.value));
-    }
+    }, 300), []);
 
-    const handleOutletWidthChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleOutletWidthChange = useCallback(debounce((e: React.ChangeEvent<HTMLInputElement>) => {
         setOutletWidth(Number(e.target.value));
-    }
+    }, 300), []);
 
     const outletLimit = 50;
     const isLengthValid = length >= 449 && length <= 1501;
