@@ -3,7 +3,7 @@ import { useCallback, useState } from "react"
 import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
-import { debounce } from "@/lib/debounce"
+import { useDebouncedCallback } from 'use-debounce';
 import TileLipAccordion from "./tile-lip-accordion"
 
 export default function SideMenu() {
@@ -15,22 +15,21 @@ export default function SideMenu() {
     const sequareMeterCost = 450;
     const price = (length * width)*(sequareMeterCost/1000000 );
 
-
-	const handleLengthChange = useCallback(debounce((e: React.ChangeEvent<HTMLInputElement>) => {
+	const handleLengthChange = useDebouncedCallback((e: React.ChangeEvent<HTMLInputElement>) => {
         setLength(Number(e.target.value));
-    }, 300), []);
+    }, 400);
 
-	const handleWidthChange = useCallback(debounce((e: React.ChangeEvent<HTMLInputElement>) => {
+	const handleWidthChange = useDebouncedCallback((e: React.ChangeEvent<HTMLInputElement>) => {
         setWidth(Number(e.target.value));
-    }, 300), []);
+    }, 400);
 
-    const handleOutletLengthChange = useCallback(debounce((e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleOutletLengthChange = useDebouncedCallback((e: React.ChangeEvent<HTMLInputElement>) => {
         setOutletLength(Number(e.target.value));
-    }, 300), []);
+    }, 400);
 
-    const handleOutletWidthChange = useCallback(debounce((e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleOutletWidthChange = useDebouncedCallback((e: React.ChangeEvent<HTMLInputElement>) => {
         setOutletWidth(Number(e.target.value));
-    }, 300), []);
+    }, 400);
 
     const outletLimit = 50;
     const isLengthValid = length >= 449 && length <= 1501;
@@ -44,11 +43,6 @@ export default function SideMenu() {
       });
 
 	const saleprice = isFormValid ? cost: "";
-
-     
-
-    
-   
 
   return (
 	<div className="flex flex-col w-full h-screen max-w-md gap-6 p-6 bg-card rounded-lg shadow-lg flex-grow">
@@ -64,7 +58,7 @@ export default function SideMenu() {
 				type="number"
 				min={450}
 				max={1700}
-				value={length}
+				placeholder="900"
 				onChange={handleLengthChange}
 				className="w-full"
 			  />
@@ -85,7 +79,7 @@ export default function SideMenu() {
                 type="number" 
                 min={450} 
                 max={1500} 
-                defaultValue={width} 
+                placeholder="900"
                 onChange={handleWidthChange}
                 className="w-full" />
                 <span className="text-muted-foreground">mm</span>
@@ -106,7 +100,7 @@ export default function SideMenu() {
                 type="number" 
                 min={50} 
                 max={length-50} 
-                defaultValue={450}
+                placeholder="450"
                 onChange={handleOutletLengthChange} 
                 className="w-full" />
                 <span className="text-muted-foreground">mm</span>
@@ -126,7 +120,7 @@ export default function SideMenu() {
                 type="number" 
                 min={50} 
                 max={width-50} 
-                defaultValue={450} 
+                placeholder="450"
                 onChange={handleOutletWidthChange}
                 className="w-full" />
                 <span className="text-muted-foreground">mm</span>
