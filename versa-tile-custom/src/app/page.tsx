@@ -1,13 +1,24 @@
-import SideMenu from "@/components/side-menu";
-import TileLipAccordion from "@/components/tile-lip-accordion";
-import { Switch } from "@/components/ui/switch";
-import Image from "next/image";
+'use client'
+import { useState } from "react"
+import SideInput from "@/components/size-input";
+import CanvasDrawing from "@/components/canvas-drawing";
 
-export default function Home() {
+
+
+const Page = () => {
+  const [size, setSize] = useState({
+    length: 900,
+    width: 900,
+    outletLength: 450,
+    outletWidth: 450,
+  });
   return (
-    <main className="flex min-h-screen flex-col justify-between">
-    
-      <SideMenu />
+    <main className="grid min-h-screen justify-between">
+      <div className="flex flex-row">
+        <SideInput onValueChange={setSize} />
+        <CanvasDrawing {...size} />
+      </div>
     </main>
   );
 }
+export default Page;

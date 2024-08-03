@@ -1,12 +1,14 @@
+//side-menu.tsx
+
 'use client'
-import { useCallback, useState } from "react"
+import { useState } from "react"
 import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { useDebouncedCallback } from 'use-debounce';
-import TileLipAccordion from "./tile-lip-accordion"
+import TileLipAccordion from "../tile-lip-accordion"
 
-export default function SideMenu() {
+export default function SideMenuBackup() {
 
     const [length, setLength] = useState(900);
     const [width, setWidth] = useState(900);   
@@ -45,34 +47,33 @@ export default function SideMenu() {
 	const saleprice = isFormValid ? cost: "";
 
   return (
-	<div className="flex flex-col w-full h-screen max-w-md gap-6 p-6 bg-card rounded-lg shadow-lg flex-grow">
 	  <div className="grid gap-4 flex-grow">
-      <div className="text-sm text-muted-foreground">Only values between 400mm to 2100mm</div>
-
-		<div className="grid grid-cols-2 items-center gap-4">
-		  <Label htmlFor="length">Length</Label>
-		  <div className="flex flex-col gap-2">
-			<div className="flex items-center gap-2">
-			  <Input
-				id="length"
-				type="number"
-				min={450}
-				max={1700}
-				placeholder="900"
-				onChange={handleLengthChange}
-				className="w-full"
-			  />
-			  <span className="text-muted-foreground">mm</span>
-			</div>
-			{(!isLengthValid) && (
-			  <span className="text-red-500 text-xs">
-				Length must be between 450mm and 1700mm.
-			  </span>
-			)}
+      <div className="text-sm text-muted-foreground">Only values between 400mm to 2100mm
+      </div>
+		  <div className="grid grid-cols-2 items-center gap-4">
+        <Label htmlFor="length">Length</Label>
+        <div className="flex flex-col gap-2">
+          <div className="flex items-center gap-2">
+            <Input
+            id="length"
+            type="number"
+            min={450}
+            max={1700}
+            placeholder="900"
+            onChange={handleLengthChange}
+            className="w-full"
+            />
+            <span className="text-muted-foreground">mm</span>
+          </div>
+              {(!isLengthValid) && (
+                <span className="text-red-500 text-xs">
+                Length must be between 450mm and 1700mm.
+                </span>
+              )}
+        </div>
 		  </div>
-		</div>
-		<div className="grid grid-cols-2 items-center gap-4">
-		  <Label htmlFor="width">Width</Label>
+      <div className="grid grid-cols-2 items-center gap-4">
+        <Label htmlFor="width">Width</Label>
           <div className="flex flex-col gap-2">
             <div className="flex items-center gap-2">
                 <Input id="width" 
@@ -84,14 +85,13 @@ export default function SideMenu() {
                 className="w-full" />
                 <span className="text-muted-foreground">mm</span>
             </div>
-            {(!isWidthValid) && (
-                <span className="text-red-500 text-xs">
-                    Width must be between 450mm and 1500mm.
-                </span>
-                )}
-                
-            </div>
-        </div>
+              {(!isWidthValid) && (
+                  <span className="text-red-500 text-xs">
+                      Width must be between 450mm and 1500mm.
+                  </span>
+              )}
+          </div>
+      </div>
 		<div className="grid grid-cols-2 items-center gap-4">
 		  <Label htmlFor="outlet-length">Outlet Position Length</Label>
           <div className="flex flex-col gap-2">
@@ -125,12 +125,12 @@ export default function SideMenu() {
                 className="w-full" />
                 <span className="text-muted-foreground">mm</span>
             </div>
-            {(!isOutletWidthValid) && (
-                <span className="text-red-500 text-xs">
-                    Minimum {outletLimit}mm from any edge.
-                </span>
-                )}
-		</div>
+              {(!isOutletWidthValid) && (
+                  <span className="text-red-500 text-xs">
+                      Minimum {outletLimit}mm from any edge.
+                  </span>
+              )}
+		      </div>
 	  </div>
 	  <div>
 		<TileLipAccordion />
@@ -151,6 +151,6 @@ export default function SideMenu() {
 		</div>
 	  </div>
 	</div>
-    </div>
+  
   )
 }

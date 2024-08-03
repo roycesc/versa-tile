@@ -1,3 +1,4 @@
+//tile-lip-accordion.tsx
 
 import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@/components/ui/accordion"
 import { Switch } from "@/components/ui/switch"
@@ -10,7 +11,7 @@ export default function TileLipAccordion() {
           <h3 className="text-sm font-medium leading-none">Customise Wall Lips (Optional)</h3>
         </AccordionTrigger>
         <AccordionContent >
-          <div className="grid grid-cols-2 gap-4 w-full">
+          <div className="grid grid-cols-2 pt-1 gap-4 w-full">
             <span className="text-sm font-medium">Left</span>
             <Switch id="left-switch" defaultChecked />
             <span className="text-sm font-medium">Top</span>
