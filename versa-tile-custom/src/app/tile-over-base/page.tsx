@@ -1,9 +1,7 @@
 'use client'
 import { useState } from "react"
 import SideInput from "@/components/size-input";
-import CanvasDrawing from "@/components/canvas-drawing";
-
-
+import TechDrawing from "@/components/tech-drawing";
 
 const Page = () => {
   const [size, setSize] = useState({
@@ -19,7 +17,7 @@ const Page = () => {
         <SideInput onValueChange={setSize} />
         </div>
         <div className="lg:col-span-2 p-2 h-full">
-        <CanvasDrawing {...size} />
+        <TechDrawing {...size} />
         </div>
       </div>
     </main>

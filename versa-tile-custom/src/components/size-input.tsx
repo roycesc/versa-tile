@@ -47,11 +47,11 @@ function SideInput({ onValueChange }: SideInputProps) {
 	const saleprice = isFormValid ? cost: "";
 
   return (
-	<div className="grid gap-4 flex-grow w-full p-4 border-r border-grey-100">
+	<div className="grid gap-4 flex-grow w-full p-4 border-r border-grey-100 h-screen">
       <div className="text-sm text-muted-foreground">Only values between 400mm to 2100mm
       </div>
         <div className="grid grid-cols-2 items-center gap-4">
-        <Label htmlFor="length">Length</Label>
+        <Label htmlFor="length">Length Y</Label>
         <div className="flex flex-col gap-2">
           <div className="flex items-center gap-2">
             <Input
@@ -75,7 +75,7 @@ function SideInput({ onValueChange }: SideInputProps) {
         </div>
 	</div>
       <div className="grid grid-cols-2 items-center gap-4">
-        <Label htmlFor="width">Width</Label>
+        <Label htmlFor="width">Width X</Label>
           <div className="flex flex-col gap-2">
             <div className="flex items-center gap-2">
                 <Input id="width" 
@@ -96,8 +96,8 @@ function SideInput({ onValueChange }: SideInputProps) {
               )}
           </div>
       </div>
-		<div className="grid grid-cols-2 items-center gap-4">
-		  <Label htmlFor="outlet-length">Outlet Position Length</Label>
+      <div className="grid grid-cols-2 items-center gap-4">
+		  <Label htmlFor="outlet-length">Outlet Position Length Y</Label>
           <div className="flex flex-col gap-2">
             <div className="flex items-center gap-2">
                 <Input id="outlet-length" 
@@ -118,28 +118,30 @@ function SideInput({ onValueChange }: SideInputProps) {
                 )}
           </div>
 		</div>
-		<div className="grid grid-cols-2 items-center gap-4">
-		  <Label htmlFor="outlet-width">Outlet Position Width</Label>
-        <div className="flex flex-col gap-2">
-            <div className="flex items-center gap-2">
-                <Input id="outlet-width" 
-                type="number" 
-                min={50} 
-                max={width-50} 
-                placeholder="450"
-                onChange={useDebouncedCallback((e: React.ChangeEvent<HTMLInputElement>) => 
-                    { setOutletWidth(Number(e.target.value)); }
-                    , 400)}
-                className="w-full" />
-                <span className="text-muted-foreground">mm</span>
-            </div>
-              {(!isOutletWidthValid) && (
-                  <span className="text-red-500 text-xs">
-                      Minimum {outletLimit}mm from any edge.
-                  </span>
-              )}
-		</div>
-    </div>
+      <div className="grid grid-cols-2 items-center gap-4">
+		  <Label htmlFor="outlet-width">Outlet Position Width X</Label>
+            <div className="flex flex-col gap-2">
+                <div className="flex items-center gap-2">
+                    <Input id="outlet-width" 
+                    type="number" 
+                    min={50} 
+                    max={width-50} 
+                    placeholder="450"
+                    onChange={useDebouncedCallback((e: React.ChangeEvent<HTMLInputElement>) => 
+                        { setOutletWidth(Number(e.target.value)); }
+                        , 400)}
+                    className="w-full" />
+                    <span className="text-muted-foreground">mm</span>
+                </div>
+                {(!isOutletWidthValid) && (
+                    <span className="text-red-500 text-xs">
+                        Minimum {outletLimit}mm from any edge.
+                    </span>
+                )}
+		    </div>
+        </div>
+
+		
     <div>
     <TileLipAccordion />
     </div>
