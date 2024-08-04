@@ -13,19 +13,19 @@ const TechDrawing = ({ length, width, outletLength, outletWidth }: TechDrawingPr
     const startx = 10; //width (Left to right)
     const gap = 80;
 
-    const startxoffset = startx+(lipwidth); // 143
-    const startyoffset = starty+(lipwidth) // 85
+    const startxoffset = startx+(lipwidth); 
+    const startyoffset = starty+(lipwidth) 
 
     // Overall dimensions of the tile base
-    const lenY = (length/2); // 450 top to bottom
-    const widX = (width/2); // 450 left to right
+    const lenY = (length/2); 
+    const widX = (width/2); 
 
-    const outletY = (outletLength/2)+starty; // 225
-    const outletX = (outletWidth/2)+startx; // 225
+    const outletY = (outletLength/2)+starty;
+    const outletX = (outletWidth/2)+startx;
     
     // Tile lips  of the tile base
-    const innerlenY = (length/2)-(lipwidth*2) // 440
-    const innerwidX = (width/2)-(lipwidth*2) // 440
+    const innerlenY = (length/2)-(lipwidth*2)
+    const innerwidX = (width/2)-(lipwidth*2)
 
     // Outlet position
 
@@ -52,8 +52,6 @@ const TechDrawing = ({ length, width, outletLength, outletWidth }: TechDrawingPr
     const fallline4y1 = lenY + (lipwidth*2);
     const fallline4x2 = outletX;
     const fallline4y2 = outletY;
-
-
 
     return (
 
