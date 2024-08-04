@@ -5,11 +5,12 @@ interface TechDrawingProps {
     width: number; // left to right
     outletLength: number; // top to bottom
     outletWidth: number; // left to right
+    isFormValid?: boolean;
 }
 
-const TechDrawing = ({ length, width, outletLength, outletWidth }: TechDrawingProps) => {
+const TechDrawing = ({ length, width, outletLength, outletWidth, isFormValid }: TechDrawingProps) => {
     const lipwidth = 5;
-    const starty = 100; //length (Top to bottom)
+    const starty = 120; //length (Top to bottom)
     const startx = 80; //width (Left to right)
     const gap = 80;
 
@@ -53,11 +54,19 @@ const TechDrawing = ({ length, width, outletLength, outletWidth }: TechDrawingPr
     const fallline4x2 = outletX;
     const fallline4y2 = outletY;
 
+    if (!isFormValid) {
+        return (
+            <div className="w-full h-full flex items-center justify-center p-4 bg-white shadow-lg">
+                <h1 className="text-2xl text-red-500">Invalid input</h1>
+            </div>
+        );
+    }
+
     return (
 
         <div><h1>Tile over base</h1>
         <div className="w-full h-full flex items-center justify-center p-4 bg-white shadow-lg">
-            
+        
             <svg 
                 viewBox="0 0 920 1020" 
                 fill="none" 
@@ -108,6 +117,7 @@ const TechDrawing = ({ length, width, outletLength, outletWidth }: TechDrawingPr
                 <circle cx={outletX} cy={outletY} r="24.5" fill="#FAFAFA" stroke="#060606"/>
 
             </svg>
+        
         </div>
         </div>
     );

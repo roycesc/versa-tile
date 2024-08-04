@@ -1,5 +1,3 @@
-//side-menu.tsx
-
 'use client'
 
 import { useEffect, useState } from "react"
@@ -9,156 +7,180 @@ import { Button } from "@/components/ui/button"
 import { useDebouncedCallback } from 'use-debounce';
 import TileLipAccordion from "./tile-lip-accordion"
 
-interface SideInputProps {
- 
-    onValueChange: (value: {
-        length: number, 
-        width: number, 
-        outletLength: number, 
-        outletWidth: number}) 
-        => void;
+interface Size {
+    length: number;
+    width: number;
+    outletLength: number;
+    outletWidth: number;
+    isFormValid: boolean;
 }
+
+interface SideInputProps {
+    onValueChange: (value: Size) => void;
+}
+
+const MIN_LENGTH = 450;
+const MAX_LENGTH = 1700;
+const MIN_WIDTH = 450;
+const MAX_WIDTH = 1500;
+const OUTLET_LIMIT = 90;
+const SEQUARE_METER_COST = 450;
+const INITIAL_LENGTH = 900;
+const INITIAL_WIDTH = 900;
+const INITIAL_OUTLET_LENGTH = 450;
+const INITIAL_OUTLET_WIDTH = 450;
+const DEBOUNCE_TIME = 600;
 
 function SideInput({ onValueChange }: SideInputProps) {
 
-    const [length, setLength] = useState(900);
-    const [width, setWidth] = useState(900);   
-    const [outletLength, setOutletLength] = useState(450);
-    const [outletWidth, setOutletWidth] = useState(450); 
-    const sequareMeterCost = 450;
+    const [length, setLength] = useState(INITIAL_LENGTH);
+    const [width, setWidth] = useState(INITIAL_WIDTH);   
+    const [outletLength, setOutletLength] = useState(INITIAL_OUTLET_LENGTH);
+    const [outletWidth, setOutletWidth] = useState(INITIAL_OUTLET_WIDTH); 
+    const [isFormValid, setIsFormValid] = useState(true);
     const [price, setPrice] = useState(0);
-    
+
+    const validateForm = () => {
+        const isLengthValid = length >= MIN_LENGTH && length <= MAX_LENGTH;
+        const isWidthValid = width >= MIN_WIDTH && width <= MAX_WIDTH;
+        const isOutletLengthValid = (length - OUTLET_LIMIT) >= outletLength && outletLength >= OUTLET_LIMIT;
+        const isOutletWidthValid = (width - OUTLET_LIMIT) >= outletWidth && outletWidth >= OUTLET_LIMIT;
+        return isLengthValid && isWidthValid && isOutletLengthValid && isOutletWidthValid;
+    };
+
     useEffect(() => {
-        onValueChange({ length, width, outletLength, outletWidth });
-        setPrice((length * width)*(sequareMeterCost/1000000 ));
+        const formValid = validateForm();
+        setIsFormValid(formValid);
+        onValueChange({ length, width, outletLength, outletWidth, isFormValid: formValid });
+        setPrice((length * width) * (SEQUARE_METER_COST / 1000000));
     }, [length, width, outletLength, outletWidth]);
 
-    const outletLimit = 50;
-    const isLengthValid = length >= 449 && length <= 1501;
-    const isWidthValid = width >= 449 && width <= 1701;
-    const isOutletLengthValid = (length - outletLimit) >= outletLength && outletLength >= outletLimit;
-    const isOutletWidthValid = (width-outletLimit) >= outletWidth && outletWidth >= outletLimit;
-    const isFormValid = isLengthValid && isWidthValid && isOutletLengthValid && isOutletWidthValid;
     const cost = price.toLocaleString("en-US", {
         style: "currency",
         currency: "USD"
-      });
+    });
 
-	const saleprice = isFormValid ? cost: "";
+    const getErrorMessage = (type: string) => {
+        switch (type) {
+            case 'length':
+                return length < MIN_LENGTH || length > MAX_LENGTH ? `Length must be between ${MIN_LENGTH}mm and ${MAX_LENGTH}mm.` : '';
+            case 'width':
+                return width < MIN_WIDTH || width > MAX_WIDTH ? `Width must be between ${MIN_WIDTH}mm and ${MAX_WIDTH}mm.` : '';
+            case 'outletLength':
+                return outletLength < OUTLET_LIMIT || outletLength > (length - OUTLET_LIMIT) ? `Minimum ${OUTLET_LIMIT}mm from any edge.` : '';
+            case 'outletWidth':
+                return outletWidth < OUTLET_LIMIT || outletWidth > (width - OUTLET_LIMIT) ? `Minimum ${OUTLET_LIMIT}mm from any edge.` : '';
+            default:
+                return '';
+        }
+    };
 
-  return (
-	<div className="grid gap-4 flex-grow w-full p-4 border-r border-grey-100 h-screen">
-      <div className="text-sm text-muted-foreground">Only values between 400mm to 2100mm
-      </div>
-        <div className="grid grid-cols-2 items-center gap-4">
-        <Label htmlFor="length">Length Y</Label>
-        <div className="flex flex-col gap-2">
-          <div className="flex items-center gap-2">
-            <Input
-            id="length"
-            type="number"
-            min={450}
-            max={1700}
-            placeholder="900"
-            onChange={useDebouncedCallback((e: React.ChangeEvent<HTMLInputElement>) => 
-                { setLength(Number(e.target.value)); }
-                , 400)}
-            className="w-full"
-            />
-            <span className="text-muted-foreground">mm</span>
-          </div>
-              {(!isLengthValid) && (
-                <span className="text-red-500 text-xs">
-                Length must be between 450mm and 1700mm.
-                </span>
-              )}
-        </div>
-	</div>
-      <div className="grid grid-cols-2 items-center gap-4">
-        <Label htmlFor="width">Width X</Label>
-          <div className="flex flex-col gap-2">
-            <div className="flex items-center gap-2">
-                <Input id="width" 
-                type="number" 
-                min={450} 
-                max={1500} 
-                placeholder="900"
-                onChange={useDebouncedCallback((e: React.ChangeEvent<HTMLInputElement>) => 
-                    { setWidth(Number(e.target.value)); }
-                    , 400)}
-                className="w-full" />
-                <span className="text-muted-foreground">mm</span>
-            </div>
-              {(!isWidthValid) && (
-                  <span className="text-red-500 text-xs">
-                      Width must be between 450mm and 1500mm.
-                  </span>
-              )}
-          </div>
-      </div>
-      <div className="grid grid-cols-2 items-center gap-4">
-		  <Label htmlFor="outlet-length">Outlet Position Length Y</Label>
-          <div className="flex flex-col gap-2">
-            <div className="flex items-center gap-2">
-                <Input id="outlet-length" 
-                type="number" 
-                min={50} 
-                max={length-50} 
-                placeholder="450"
-                onChange={useDebouncedCallback((e: React.ChangeEvent<HTMLInputElement>) => 
-                    { setOutletLength(Number(e.target.value)); }
-                    , 400)}
-                className="w-full" />
-                <span className="text-muted-foreground">mm</span>
-            </div>
-          {(!isOutletLengthValid) && (
-                <span className="text-red-500 text-xs">
-                    Minimum {outletLimit}mm from any edge.
-                </span>
-                )}
-          </div>
-		</div>
-      <div className="grid grid-cols-2 items-center gap-4">
-		  <Label htmlFor="outlet-width">Outlet Position Width X</Label>
-            <div className="flex flex-col gap-2">
-                <div className="flex items-center gap-2">
-                    <Input id="outlet-width" 
-                    type="number" 
-                    min={50} 
-                    max={width-50} 
-                    placeholder="450"
-                    onChange={useDebouncedCallback((e: React.ChangeEvent<HTMLInputElement>) => 
-                        { setOutletWidth(Number(e.target.value)); }
-                        , 400)}
-                    className="w-full" />
-                    <span className="text-muted-foreground">mm</span>
+    return (
+        <div className="grid gap-4 flex-grow w-full p-4 border-r border-grey-100 h-screen">
+            <div className="text-sm text-muted-foreground">Only values between 400mm to 2100mm</div>
+            <div className="grid grid-cols-2 items-center gap-4">
+                <Label htmlFor="length">Length</Label>
+                <div className="flex flex-col gap-2">
+                    <div className="flex items-center gap-2">
+                        <Input
+                            id="length"
+                            type="number"
+                            min={MIN_LENGTH}
+                            max={MAX_LENGTH}
+                            placeholder={INITIAL_LENGTH.toString()}
+                            onChange={useDebouncedCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+                                setLength(Number(e.target.value));
+                            }, DEBOUNCE_TIME)}
+                            className="w-full"
+                        />
+                        <span className="text-muted-foreground">mm</span>
+                    </div>
+                    {getErrorMessage('length') && (
+                        <span className="text-red-500 text-xs">{getErrorMessage('length')}</span>
+                    )}
                 </div>
-                {(!isOutletWidthValid) && (
-                    <span className="text-red-500 text-xs">
-                        Minimum {outletLimit}mm from any edge.
-                    </span>
-                )}
-		    </div>
+            </div>
+            <div className="grid grid-cols-2 items-center gap-4">
+                <Label htmlFor="width">Width</Label>
+                <div className="flex flex-col gap-2">
+                    <div className="flex items-center gap-2">
+                        <Input
+                            id="width"
+                            type="number"
+                            min={MIN_WIDTH}
+                            max={MAX_WIDTH}
+                            placeholder={INITIAL_WIDTH.toString()}
+                            onChange={useDebouncedCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+                                setWidth(Number(e.target.value));
+                            }, DEBOUNCE_TIME)}
+                            className="w-full"
+                        />
+                        <span className="text-muted-foreground">mm</span>
+                    </div>
+                    {getErrorMessage('width') && (
+                        <span className="text-red-500 text-xs">{getErrorMessage('width')}</span>
+                    )}
+                </div>
+            </div>
+            <div className="grid grid-cols-2 items-center gap-4">
+                <Label htmlFor="outlet-length">Outlet Position Length</Label>
+                <div className="flex flex-col gap-2">
+                    <div className="flex items-center gap-2">
+                        <Input
+                            id="outlet-length"
+                            type="number"
+                            min={OUTLET_LIMIT}
+                            max={length - OUTLET_LIMIT}
+                            placeholder={INITIAL_OUTLET_LENGTH.toString()}
+                            onChange={useDebouncedCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+                                setOutletLength(Number(e.target.value));
+                            }, DEBOUNCE_TIME)}
+                            className="w-full"
+                        />
+                        <span className="text-muted-foreground">mm</span>
+                    </div>
+                    {getErrorMessage('outletLength') && (
+                        <span className="text-red-500 text-xs">{getErrorMessage('outletLength')}</span>
+                    )}
+                </div>
+            </div>
+            <div className="grid grid-cols-2 items-center gap-4">
+                <Label htmlFor="outlet-width">Outlet Position Width</Label>
+                <div className="flex flex-col gap-2">
+                    <div className="flex items-center gap-2">
+                        <Input
+                            id="outlet-width"
+                            type="number"
+                            min={OUTLET_LIMIT}
+                            max={width - OUTLET_LIMIT}
+                            placeholder={INITIAL_OUTLET_WIDTH.toString()}
+                            onChange={useDebouncedCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+                                setOutletWidth(Number(e.target.value));
+                            }, DEBOUNCE_TIME)}
+                            className="w-full"
+                        />
+                        <span className="text-muted-foreground">mm</span>
+                    </div>
+                    {getErrorMessage('outletWidth') && (
+                        <span className="text-red-500 text-xs">{getErrorMessage('outletWidth')}</span>
+                    )}
+                </div>
+            </div>
+            <div>
+                <TileLipAccordion />
+            </div>
+            <div className="grid gap-2 mt-auto flex-grow">
+                <div id="Price-order" className="mt-auto">
+                    <div className="text-4xl font-bold py-8">
+                        {isFormValid && <span>{cost}</span>}
+                    </div>
+                    <Button className="w-full" disabled={!isFormValid}>
+                        Order
+                    </Button>
+                </div>
+            </div>
         </div>
-
-		
-    <div>
-    <TileLipAccordion />
-    </div>
-    <div className="grid gap-2 mt-auto flex-grow">
-        <div id="Price-order" className="mt-auto">
-        <div className="text-4xl font-bold py-8">
-            {(isFormValid) && (
-            <span>{cost}</span>
-            )}
-        </div>
-        <Button className="w-full"
-        disabled={!isFormValid}
-        >Order</Button>
-        </div>
-    </div>
-	</div>
-  
-  )
+    )
 }
-export default SideInput
+
+export default SideInput;

@@ -4,11 +4,20 @@ import SideInput from "@/components/size-input";
 import TechDrawing from "@/components/tech-drawing";
 
 const Page = () => {
-  const [size, setSize] = useState({
+  const [size, setSize] = useState<{
+    length: number;
+    width: number;
+    outletLength: number;
+    outletWidth: number;
+    isFormValid: boolean;
+    }>({
+
     length: 900,
     width: 900,
     outletLength: 450,
     outletWidth: 450,
+    isFormValid: true
+
   });
   return (
     <main className="grid min-h-screen h-full">
