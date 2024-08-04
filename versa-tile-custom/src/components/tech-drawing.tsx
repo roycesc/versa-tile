@@ -9,8 +9,8 @@ interface TechDrawingProps {
 
 const TechDrawing = ({ length, width, outletLength, outletWidth }: TechDrawingProps) => {
     const lipwidth = 5;
-    const starty = 20; //length (Top to bottom)
-    const startx = 10; //width (Left to right)
+    const starty = 100; //length (Top to bottom)
+    const startx = 80; //width (Left to right)
     const gap = 80;
 
     const startxoffset = startx+(lipwidth); 
@@ -31,7 +31,7 @@ const TechDrawing = ({ length, width, outletLength, outletWidth }: TechDrawingPr
 
     // Fall line - Bottom left line 
     const fallline1x1 = startx + (lipwidth*2); 
-    const fallline1y1 = startx + lenY; 
+    const fallline1y1 = (starty + lenY) - (lipwidth * 2); 
     const fallline1x2 = outletX; 
     const fallline1y2 = outletY ; 
 
@@ -42,14 +42,14 @@ const TechDrawing = ({ length, width, outletLength, outletWidth }: TechDrawingPr
     const fallline2y2 = outletY;
 
     // Fall line - Top right line
-    const fallline3x1 = widX;
+    const fallline3x1 = widX + startx - (lipwidth*2);
     const fallline3y1 = starty + (lipwidth*2);
     const fallline3x2 = outletX;
     const fallline3y2 = outletY;
 
     // Fall line - Bottom right line
-    const fallline4x1 = widX;
-    const fallline4y1 = lenY + (lipwidth*2);
+    const fallline4x1 = widX + startx - (lipwidth*2);
+    const fallline4y1 = (lenY + starty) - (lipwidth*2);
     const fallline4x2 = outletX;
     const fallline4y2 = outletY;
 
