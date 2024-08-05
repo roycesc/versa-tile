@@ -29,7 +29,6 @@ const TechDrawing = ({ length, width, outletLength, outletWidth, isFormValid }: 
     const innerlenY = (length/2)-(lipwidth*2)
     const innerwidX = (width/2)-(lipwidth*2)
 
-    // Outlet position
 
     // Fall line - Bottom left line 
     const fallline1x1 = startx + (lipwidth*2); 
