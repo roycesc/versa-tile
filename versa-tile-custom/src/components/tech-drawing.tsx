@@ -62,69 +62,70 @@ const TechDrawing = ({ length, width, outletLength, outletWidth, isFormValid }: 
         );
     }
 
+    // Calculate the dimensions of the content
+        const contentWidth = Math.max(widX) + startx + 80;
+        const contentHeight = Math.max(lenY) + starty + 80;
+        const viewBox = `0 0 ${contentWidth} ${contentHeight}`;
+
     return (
 
-        <div><h1>Tile over base</h1>
-        <div className="w-full h-full flex items-center justify-center p-4 bg-white shadow-lg">
-          
-        
-            <svg 
-                viewBox="0 0 920 1020" 
-                fill="none" 
-                preserveAspectRatio="xMidYMid meet" 
-                xmlns="http://www.w3.org/2000/svg"
-                className="w-full h-full"
-            >            
-                {/* Overall dimensions of the tile base */}
-                <rect x={startx} y={starty} width={widX} height={lenY} fill={colourfill} stroke="#060606"/> 
-                
-                {/* Tile lips  of the tile base */}
-                <rect x={startxoffset} y={startyoffset} width={innerwidX} height={innerlenY} rx="3.5" fill={colourfill} stroke="#060606"/>
-                
-                {/*  Fall line - Bottom left line */}
-                <line x1={fallline1x1}  y1={fallline1y1} x2={fallline1x2} y2={fallline1y2} stroke="#060606" stroke-linecap="square" stroke-dasharray="5 5"/>
-                
-                {/* Fall line - Top left line */}
-                <line x1={fallline2x1}  y1={fallline2y1} x2={fallline2x2} y2={fallline2y2} stroke="#060606" stroke-linecap="square" stroke-dasharray="5 5"/>
-                
-                {/* Fall line - Top right line */}
-                <line x1={fallline3x1} y1={fallline3y1} x2={fallline3x2} y2={fallline3y2} stroke="#060606" stroke-linecap="square" stroke-dasharray="5 5"/>
-                
-                {/* Fall line - Bottom right line */}
-                <line x1={fallline4x1} y1={fallline4y1} x2={fallline4x2} y2={fallline4y2} stroke="#060606" stroke-linecap="square" stroke-dasharray="5 5"/>
-                
-                {/* Length Dimensions  */}
-                <text x={startx+(widX/2)} y="12" font-family={fontfamily} font-size="14" fill="#060606" text-anchor="middle">{width} mm - (Width)</text>
-                <line x1={startx} y1="24" x2={widX+startx} y2="24" stroke="#060606"/>
-                <line x1={startx} y1="16" x2={startx} y2="32" stroke="#060606"/>
-                <line x1={widX+startx} y1="16" x2={widX+startx} y2="32" stroke="#060606"/>
+            <div className="items-center justify-center bg-white">
+                <svg 
+                    viewBox={viewBox}  
+                    fill="none" 
+                    preserveAspectRatio="xMidYMid meet" 
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-screen w-full"
+                    
+                >            
+                    {/* Overall dimensions of the tile base */}
+                    <rect x={startx} y={starty} width={widX} height={lenY} fill={colourfill} stroke="#060606"/> 
+                    
+                    {/* Tile lips  of the tile base */}
+                    <rect x={startxoffset} y={startyoffset} width={innerwidX} height={innerlenY} rx="3.5" fill={colourfill} stroke="#060606"/>
+                    
+                    {/*  Fall line - Bottom left line */}
+                    <line x1={fallline1x1}  y1={fallline1y1} x2={fallline1x2} y2={fallline1y2} stroke="#060606" strokeLinecap="square" strokeDasharray="5 5"/>
+                    
+                    {/* Fall line - Top left line */}strokeDasharray
+                    <line x1={fallline2x1}  y1={fallline2y1} x2={fallline2x2} y2={fallline2y2} stroke="#060606" strokeLinecap="square" strokeDasharray="5 5"/>
+                    
+                    {/* Fall line - Top right line */}
+                    <line x1={fallline3x1} y1={fallline3y1} x2={fallline3x2} y2={fallline3y2} stroke="#060606" strokeLinecap="square" strokeDasharray="5 5"/>
+                    
+                    {/* Fall line - Bottom right line */}
+                    <line x1={fallline4x1} y1={fallline4y1} x2={fallline4x2} y2={fallline4y2} stroke="#060606" strokeLinecap="square" strokeDasharray="5 5"/>
+                    
+                    {/* Length Dimensions  */}
+                    <text x={startx+(widX/2)} y="12" fontFamily={fontfamily} fontSize="14" fill="#060606" textAnchor="middle">{width} mm - (Width)</text>
+                    <line x1={startx} y1="24" x2={widX+startx} y2="24" stroke="#060606"/>
+                    <line x1={startx} y1="16" x2={startx} y2="32" stroke="#060606"/>
+                    <line x1={widX+startx} y1="16" x2={widX+startx} y2="32" stroke="#060606"/>
 
-                {/* Width Dimensions  */}
-                <text x="12" y={starty+(lenY/2)} font-family={fontfamily} font-size="14" fill="#060606" text-anchor="middle" transform={`rotate(-90, ${startx-48}, ${starty + (lenY / 2)})`}> {length} mm - (Length)</text>
-                <line x1={startx-32} y1={starty} x2={startx-32} y2={lenY+starty} stroke="#060606"/>
-                <line x1={startx-24} y1={starty} x2={startx-40} y2={starty} stroke="#060606"/>
-                <line x1={startx-24} y1={lenY+starty} x2={startx-40} y2={lenY+starty} stroke="#060606"/>
-                
-                {/* Outlet Length Dimensions  */}
-                <text x={startx + widX + 60} y={(starty + outletY) / 2} fontFamily={fontfamily} fontSize="14" fill="#060606" textAnchor="middle" transform={`rotate(-90, ${startx + widX + 60}, ${(starty + outletY) / 2})`}>{outletLength} mm - (Outlet Length)</text>
-                <line x1={startx} y1={lenY+starty+32} x2={outletX} y2={lenY+starty+32} stroke="#060606"/>
-                <line x1={startx} y1={lenY+starty+24} x2={startx} y2={lenY+starty+40} stroke="#060606"/>
-                <line x1={outletX} y1={lenY+starty+24} x2={outletX} y2={lenY+starty+40} stroke="#060606"/>
-                
-                {/* Outlet Width Dimensions  */}
-                <text x={(startx + outletX) / 2} y={lenY + starty + 54} fontFamily={fontfamily} textAnchor="middle" fontSize="14" fill="#060606"> {outletWidth} mm - (Outlet Width)</text>
-                <line x1={startx+widX+32} y1={starty} x2={startx+widX+32} y2={outletY} stroke="#060606"/>
-                <line x1={startx+widX+24} y1={starty} x2={startx+widX+40} y2={starty} stroke="#060606"/>
-                <line x1={startx+widX+24} y1={outletY} x2={startx+widX+40} y2={outletY} stroke="#060606"/>
-                
-                {/* Outlet */}
-                <circle cx={outletX} cy={outletY}r="37.25" fill={colourfill} stroke="#060606" stroke-width="0.5"/>
-                <circle cx={outletX} cy={outletY} r="24.5" fill="#FAFAFA" stroke="#060606"/>
+                    {/* Width Dimensions  */}
+                    <text x="12" y={starty+(lenY/2)} fontFamily={fontfamily} fontSize="14" fill="#060606" textAnchor="middle" transform={`rotate(-90, ${startx-48}, ${starty + (lenY / 2)})`}> {length} mm - (Length)</text>
+                    <line x1={startx-32} y1={starty} x2={startx-32} y2={lenY+starty} stroke="#060606"/>
+                    <line x1={startx-24} y1={starty} x2={startx-40} y2={starty} stroke="#060606"/>
+                    <line x1={startx-24} y1={lenY+starty} x2={startx-40} y2={lenY+starty} stroke="#060606"/>
+                    
+                    {/* Outlet Length Dimensions  */}
+                    <text x={startx + widX + 60} y={(starty + outletY) / 2} fontFamily={fontfamily} fontSize="14" fill="#060606" textAnchor="middle" transform={`rotate(-90, ${startx + widX + 60}, ${(starty + outletY) / 2})`}>{outletLength} mm - (Outlet Length)</text>
+                    <line x1={startx} y1={lenY+starty+32} x2={outletX} y2={lenY+starty+32} stroke="#060606"/>
+                    <line x1={startx} y1={lenY+starty+24} x2={startx} y2={lenY+starty+40} stroke="#060606"/>
+                    <line x1={outletX} y1={lenY+starty+24} x2={outletX} y2={lenY+starty+40} stroke="#060606"/>
+                    
+                    {/* Outlet Width Dimensions  */}
+                    <text x={(startx + outletX) / 2} y={lenY + starty + 54} fontFamily={fontfamily} textAnchor="middle" fontSize="14" fill="#060606"> {outletWidth} mm - (Outlet Width)</text>
+                    <line x1={startx+widX+32} y1={starty} x2={startx+widX+32} y2={outletY} stroke="#060606"/>
+                    <line x1={startx+widX+24} y1={starty} x2={startx+widX+40} y2={starty} stroke="#060606"/>
+                    <line x1={startx+widX+24} y1={outletY} x2={startx+widX+40} y2={outletY} stroke="#060606"/>
+                    
+                    {/* Outlet */}
+                    <circle cx={outletX} cy={outletY}r="37.25" fill={colourfill} stroke="#060606" strokeWidth="0.5"/>
+                    <circle cx={outletX} cy={outletY} r="24.5" fill="#FAFAFA" stroke="#060606"/>
 
-            </svg>
-        
-        </div>
-        </div>
+                </svg>
+            </div>
     );
 }
 export default TechDrawing;

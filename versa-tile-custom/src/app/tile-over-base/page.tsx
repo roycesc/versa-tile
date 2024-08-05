@@ -20,12 +20,12 @@ const Page = () => {
 
   });
   return (
-    <main className="grid min-h-screen h-full">
+    <main className="grid min-h-screen h-screen">
       <div className="grid grid-cols-1 lg:grid-cols-3 w-full">
-        <div className="lg:col-span-1 p-2 h-full">
+        <div className="lg:col-span-1 p-2">
         <SideInput onValueChange={setSize} />
         </div>
-        <div className="lg:col-span-2 p-2 h-full">
+        <div className="lg:col-span-2 pt-4">
         <TechDrawing {...size} />
         </div>
       </div>
