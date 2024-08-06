@@ -20,15 +20,16 @@ const Page = () => {
 
   });
   return (
-    <main className="grid min-h-screen h-screen">
-      <div className="grid grid-cols-1 lg:grid-cols-3 w-full">
-        <div className="lg:col-span-1 p-2">
-        <SideInput onValueChange={setSize} />
+    <main className="flex flex-col h-screen md:flex-row">
+    
+        <div className="p-2 order-2 items-baseline md:max-w-96 md:flex-none md:order-1">
+          <SideInput onValueChange={setSize} />
         </div>
-        <div className="lg:col-span-2 pt-4">
-        <TechDrawing {...size} />
-        </div>
+        
+        <div className="pt-4 order-1 md:flex-1 md:order-2">
+          <TechDrawing {...size} />
       </div>
+
     </main>
   );
 }

@@ -76,8 +76,13 @@ function SideInput({ onValueChange }: SideInputProps) {
     };
 
     return (
-        <div className="grid gap-4 flex-grow w-full p-4 border-r border-grey-100 h-screen">
-            <div className="text-sm text-muted-foreground">Only values between 400mm to 2100mm</div>
+        <div className="grid gap-2 p-6 sm:border-t md:border-r border-grey-100 md:h-screen">
+            <div className="text-2xl font-bold ">Custom Tile Over base</div>
+            <div className="sm:text-sm md:text-md hidden md:block max-w-xl">
+            <div>Custom Tile Over bases offer flexibile sizing ranging from {MIN_LENGTH
+                }mm up to {MAX_LENGTH}mm in length and from {MIN_WIDTH}mm up to {MAX_WIDTH}mm in width.</div>
+                <div>The outlet can be placed anywhere provided it is {OUTLET_LIMIT}mm away from any edge.</div>
+            </div>
             <div className="grid grid-cols-2 items-center gap-4">
                 <Label htmlFor="length">Length</Label>
                 <div className="flex flex-col gap-2">

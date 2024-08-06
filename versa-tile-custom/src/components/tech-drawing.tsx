@@ -56,7 +56,7 @@ const TechDrawing = ({ length, width, outletLength, outletWidth, isFormValid }: 
 
     if (!isFormValid) {
         return (
-            <div className="w-full h-full flex items-center justify-center p-4 bg-white shadow-lg">
+            <div className="flex items-center justify-center p-4 bg-white shadow-lg">
                 <h1 className="text-2xl text-red-500">Invalid input</h1>
             </div>
         );
@@ -69,13 +69,14 @@ const TechDrawing = ({ length, width, outletLength, outletWidth, isFormValid }: 
 
     return (
 
-            <div className="items-center justify-center bg-white">
+            <div>
                 <svg 
                     viewBox={viewBox}  
                     fill="none" 
-                    preserveAspectRatio="xMidYMid meet" 
+                    // preserveAspectRatio="xMidYMid meet" 
+                    preserveAspectRatio="xMidYMid meet"
                     xmlns="http://www.w3.org/2000/svg"
-                    className="h-screen w-full"
+                    className="p-6 md:h-screen w-full items-center justify-center"
                     
                 >            
                     {/* Overall dimensions of the tile base */}
